@@ -1,7 +1,9 @@
 # wechat-windows-versions
 收集 Windows 微信版本并保存
 
-相关项目: [Mac微信收集](https://github.com/zsbai/wechat-versions)
+相关项目: 
+* [Mac微信收集](https://github.com/zsbai/wechat-versions)
+* [WindowsX64 版本收集(含旧版本未迁移过来的x86的)](https://github.com/tom-snow/wechat-windows-versions)
 
 ## 目录结构
 ```shell

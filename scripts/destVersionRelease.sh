@@ -8,7 +8,7 @@ latest_path="WeChatSetup/latest"
 download_link="$1"
 if [ -z "$1" ]; then
     >&2 echo -e "Missing argument. Using default download link"
-    download_link="https://dldir1.qq.com/weixin/Windows/WeChatSetup.exe"
+    download_link="https://dldir1.qq.com/weixin/Windows/WeChatSetup_x86.exe"
 fi
 
 function install_depends() {
@@ -18,6 +18,7 @@ function install_depends() {
     printf "#%.0s" {1..60}
     echo 
 
+    apt update
     apt install -y p7zip-full p7zip-rar libdigest-sha-perl wget curl git
 }
 
@@ -28,7 +29,7 @@ function login_gh() {
     printf "#%.0s" {1..60}
     echo 
     if [ -z $GHTOKEN ]; then
-        >&2 echo -e "\033[1;31mMissing Github Token! Please get a BotToken from 'Github Settings->Developer settings->Personal access tokens' and set it in Repo Secrect\033[0m"
+        >&2 echo -e "\033[1;31mMissing Github Token! Please get a GHToken from 'Github Settings->Developer settings->Personal access tokens' and set it in Repo Secrect\033[0m"
         exit 1
     fi
 
@@ -83,11 +84,11 @@ function prepare_commit() {
     echo 
 
     mkdir -p WeChatSetup/$dest_version
-    cp $temp_path/WeChatSetup.exe WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe
-    echo "DestVersion: $dest_version" > WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe.sha256
-    echo "Sha256: $now_sum256" >> WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe.sha256
-    echo "UpdateTime: $(date -u '+%Y-%m-%d %H:%M:%S') (UTC)" >> WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe.sha256
-    echo "DownloadFrom: $download_link" >> WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe.sha256
+    cp $temp_path/WeChatSetup.exe WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe
+    echo "DestVersion(X86): $dest_version" > WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe.sha256
+    echo "Sha256: $now_sum256" >> WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe.sha256
+    echo "UpdateTime: $(date -u '+%Y-%m-%d %H:%M:%S') (UTC)" >> WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe.sha256
+    echo "DownloadFrom: $download_link" >> WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe.sha256
     
 }
 
@@ -121,7 +122,7 @@ function main() {
     extract_version
     prepare_commit
 
-    gh release create v$dest_version ./WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe -F ./WeChatSetup/$dest_version/WeChatSetup-$dest_version.exe.sha256 -t "Wechat v$dest_version"
+    gh release create v$dest_version ./WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe -F ./WeChatSetup/$dest_version/WeChatSetupX86-$dest_version.exe.sha256 -t "WechatX86 v$dest_version"
 
     gh auth logout --hostname github.com | echo "y"
 
