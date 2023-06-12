@@ -8,7 +8,7 @@ on:
       download_link:
         description: 'The manual WechatSetup.exe download link'
         required: false
-        default: 'https://dldir1.qq.com/weixin/Windows/WeChatSetup.exe'
+        default: 'https://dldir1.qq.com/weixin/Windows/WeChatSetup_x86.exe'
 
 jobs:
   save_new_wechat:
